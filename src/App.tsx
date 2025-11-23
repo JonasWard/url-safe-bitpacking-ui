@@ -1,6 +1,6 @@
-import { DataModelBuilder } from './builder/DataModelBuilder';
+import { DescriptorBuilder } from './builder/DataModelBuilder';
 import './index.css';
 
-export const App = () => <DataModelBuilder />;
+export const App = () => <DescriptorBuilder />;
 
 export default App;

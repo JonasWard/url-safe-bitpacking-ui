@@ -1,12 +1,26 @@
-import { EnumDataEntry } from 'url-safe-bitpacking/dist/types';
+import { OptionsSelector } from './OptionsSelector';
+import { DescriptorFactory, getOptionsFromMaxAndMapping, EnumDataEntry, EnumOptionsType } from 'url-safe-bitpacking';
 
-export const EnumRenderer: React.FC<{ enumObject: EnumDataEntry }> = ({ enumObject }) => (
-  <>
-    <span className="text-right">value</span>
-    <select value={enumObject.value}>
-      {[...Array(enumObject.max)].map((_, index) => (
-        <option value={index}>{index}</option>
-      ))}
-    </select>
-  </>
-);
+export const EnumRenderer: React.FC<{
+  d: EnumDataEntry;
+  onMutate: (d: EnumDataEntry) => void;
+}> = ({ d, onMutate }) => {
+  const handleSetOptions = (options: EnumOptionsType) => {
+    const newEnum = DescriptorFactory.ENUM(d.value, options, d.name);
+    onMutate(newEnum);
+  };
+  const handleSetValue = (value: number) =>
+    onMutate(DescriptorFactory.ENUM(value, getOptionsFromMaxAndMapping(d), d.name));
+
+  return (
+    <>
+      <span className="text-right">value</span>
+      <select value={d.value} onChange={(e) => handleSetValue(Number(e.target.value))}>
+        {[...Array(d.max + 1)].map((_, index) => (
+          <option value={index}>{d.mapping[index] as string | number}</option>
+        ))}
+      </select>
+      <OptionsSelector optionsObject={getOptionsFromMaxAndMapping(d)} setOptions={(v) => handleSetOptions(v)} />
+    </>
+  );
+};

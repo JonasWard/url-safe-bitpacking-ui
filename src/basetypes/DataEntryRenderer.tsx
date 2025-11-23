@@ -1,9 +1,14 @@
-import { DataEntry, DataType } from 'url-safe-bitpacking';
+import { ComplexDataType, DataEntry, DataType } from 'url-safe-bitpacking';
 import {
+  ArrayDataEntry,
   BooleanDataEntry,
+  ComplexDataEntry,
+  EnumArrayDataEntry,
   EnumDataEntry,
+  EnumOptionsDataEntry,
   FloatDataEntry,
   IntDataEntry,
+  OptionalDataEntry,
   VersionDataEntry
 } from 'url-safe-bitpacking/dist/types';
 import { VersionRenderer } from './VersionRenderer';
@@ -12,22 +17,46 @@ import { EnumRenderer } from './EnumRenderer';
 import { BaseEntryWrapper } from './BaseEntryWrapper';
 import { FloatRenderer } from './FloatRenderer';
 import { IntRenderer } from './IntRenderer';
+import { EnumArrayRenderer } from './EnumArrayRenderer';
+import { EnumOptionsRenderer } from './EnumOptionsRenderer';
+import { ArrayRenderer } from './ArrayRenderer';
+import { OptionalRenderer } from './OptionalRenderer';
 
-const DataEntryRendererSplitter: React.FC<{ d: DataEntry }> = ({ d }) => {
-  switch (d.type) {
-    case DataType.VERSION:
-      return <VersionRenderer versionObject={d as VersionDataEntry} />;
-    case DataType.BOOLEAN:
-      return <BooleanRenderer booleanObject={d as BooleanDataEntry} />;
-    case DataType.ENUM:
-      return <EnumRenderer enumObject={d as EnumDataEntry} />;
-    case DataType.INT:
-      return <IntRenderer intObject={d as IntDataEntry} />;
-    case DataType.FLOAT:
-      return <FloatRenderer floatObject={d as FloatDataEntry} />;
+type DataEntryRendererSplitterProps<T extends DataEntry | ComplexDataEntry> = {
+  d: T;
+  onMutate: (dataEntry: T) => void;
+};
+
+type DataEntryRendererProps = DataEntryRendererSplitterProps<DataEntry | ComplexDataEntry> & {
+  onMutateType: (t: DataType | ComplexDataType) => void;
+  onRemove: () => void;
+};
+
+const DataEntryRendererSplitter: React.FC<DataEntryRendererSplitterProps<DataEntry | ComplexDataEntry>> = (props) => {
+  switch (props.d.type) {
+    case 'VERSION':
+      return <VersionRenderer {...(props as DataEntryRendererSplitterProps<VersionDataEntry>)} />;
+    case 'BOOLEAN':
+      return <BooleanRenderer {...(props as DataEntryRendererSplitterProps<BooleanDataEntry>)} />;
+    case 'ENUM':
+      return <EnumRenderer {...(props as DataEntryRendererSplitterProps<EnumDataEntry>)} />;
+    case 'INT':
+      return <IntRenderer {...(props as DataEntryRendererSplitterProps<IntDataEntry>)} />;
+    case 'FLOAT':
+      return <FloatRenderer {...(props as DataEntryRendererSplitterProps<FloatDataEntry>)} />;
+    case 'ENUM_ARRAY':
+      return <EnumArrayRenderer {...(props as DataEntryRendererSplitterProps<EnumArrayDataEntry>)} />;
+    case 'ENUM_OPTIONS':
+      return <EnumOptionsRenderer {...(props as DataEntryRendererSplitterProps<EnumOptionsDataEntry>)} />;
+    case 'ARRAY':
+      return <ArrayRenderer {...(props as DataEntryRendererSplitterProps<ArrayDataEntry>)} />;
+    case 'OPTIONAL':
+      return <OptionalRenderer {...(props as DataEntryRendererSplitterProps<OptionalDataEntry>)} />;
+    default:
+      return null;
   }
 };
 
-export const DataEntryRenderer: React.FC<{ d: DataEntry }> = ({ d }) => (
-  <BaseEntryWrapper dataEntry={d} children={<DataEntryRendererSplitter d={d} />} />
+export const DataEntryRenderer: React.FC<DataEntryRendererProps> = ({ onMutateType, ...props }) => (
+  <BaseEntryWrapper onMutateType={onMutateType} children={<DataEntryRendererSplitter {...props} />} {...props} />
 );
