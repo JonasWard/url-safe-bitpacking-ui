@@ -39,20 +39,21 @@ export const BaseEntryWrapper: React.FC<{
           <span className="flex flex-col gap-2 px-1">
             <span className="grid grid-cols-[1fr_auto] gap-2">
               <p>{complexDataStateStringifier(d as ComplexDataEntry).length}</p>
-              <p className=" truncate">{complexDataStateStringifier(d as ComplexDataEntry)}</p>
+              <p className="truncate max-w-[500px]">{complexDataStateStringifier(d as ComplexDataEntry)}</p>
             </span>
             <span className="grid grid-cols-[1fr_auto] gap-2">
               <p>{complexDataStringifier(d as ComplexDataEntry).length}</p>
-              <p className=" truncate">{complexDataStringifier(d as ComplexDataEntry)}</p>
+              <p className="truncate max-w-[500px]">{complexDataStringifier(d as ComplexDataEntry)}</p>
             </span>
           </span>
         ) : (
-          <span className="flex flex-row gap-2 px-1">
+          <span className="grid grid-cols-[1fr_auto] gap-2">
             <p>{dataBitsStringifier(d as DataEntry).length}</p>
-            <p>{dataBitsStringifier(d as DataEntry)}</p>
+            <p className="truncate max-w-[500px]">{dataBitsStringifier(d as DataEntry)}</p>
           </span>
         )}
       </>
     </CardWrapper>
   );
 };
+  
