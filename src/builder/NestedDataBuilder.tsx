@@ -12,14 +12,17 @@ import {
   NestedData
 } from 'url-safe-bitpacking';
 
+const defaultName: string = '';
+const defaultType: DataType | ComplexDataType = 'INT';
+
 const AddDataEntry: React.FC<{ add: (t: DataType | ComplexDataType, name: string) => void }> = ({ add }) => {
-  const [name, setName] = useState('');
-  const [type, setType] = useState<DataType | ComplexDataType>('INT');
+  const [name, setName] = useState(defaultName);
+  const [type, setType] = useState<DataType | ComplexDataType>(defaultType);
 
   const handleAdd = () => {
     add(type, name);
-    setName('');
-    setType('ENUM');
+    setName(defaultName);
+    setType(defaultType);
   };
 
   return (
