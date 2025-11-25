@@ -125,7 +125,7 @@ console.log("\n🚀 Starting build process...\n");
 
 // Parse CLI arguments with our magical parser
 const cliConfig = parseArgs();
-const outdir = cliConfig.outdir || path.join(process.cwd(), "dist");
+const outdir = cliConfig.outdir || path.join(process.cwd(), 'out');
 
 if (existsSync(outdir)) {
   console.log(`🗑️ Cleaning previous build at ${outdir}`);
