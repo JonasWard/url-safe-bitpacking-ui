@@ -68,10 +68,10 @@ export const DescriptorBuilder = () => {
           </span>
         </span>
       </span>
-      <div className="pt-16 pb-16 px-6 mr-auto">
+      <div className="pt-16 pb-18 px-6 mr-auto">
         <NestedDataBuilder d={dataModel} setData={(e) => setDataModel(e as StateDescriptor)} />
       </div>
-      <span className="fixed bottom-0 left-0 p-1 bg-background">
+      <span className="footer max-w-100 mx-auto">
         <BitDataRenderer bitstring={nestedDataStringifier(dataModel)} showBase64 />
       </span>
     </div>
