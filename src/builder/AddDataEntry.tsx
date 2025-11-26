@@ -9,7 +9,8 @@ const defaultType: DataType | ComplexDataType = 'INT';
 export const AddDataEntry: React.FC<{
   add: (t: DataType | ComplexDataType, name: string) => void;
   otherNames: string[];
-}> = ({ add, otherNames }) => {
+  disabled?: boolean;
+}> = ({ add, otherNames, disabled = false }) => {
   const [name, setName] = useState(getDefaultNameForType(defaultType, otherNames));
   const [type, setType] = useState<DataType | ComplexDataType>(defaultType);
   const handleNameChange = (t: string | null) => setName(t ?? '');
@@ -32,17 +33,24 @@ export const AddDataEntry: React.FC<{
   return (
     <CardWrapper className="foreground grid grid-cols-[1fr_auto_auto] gap-2 justify-between">
       <input
+        disabled={disabled}
         type="text"
         value={name}
         onChange={(e) => handleNameChange(e.target.value)}
         className={isNameValid(name, otherNames) ? undefined : 'invalid'}
       />
-      <select value={type} onChange={(e) => handleTypeChange(e.target.value as DataType | ComplexDataType)}>
+      <select
+        disabled={disabled}
+        value={type}
+        onChange={(e) => handleTypeChange(e.target.value as DataType | ComplexDataType)}
+      >
         {[...Object.values(DataTypeValues), ...Object.values(ComplexDataValues)].map((t, i) => (
           <option key={i} value={t} children={t} />
         ))}
       </select>
-      <button onClick={handleAdd}>+</button>
+      <button disabled={disabled} onClick={handleAdd}>
+        +
+      </button>
     </CardWrapper>
   );
 };

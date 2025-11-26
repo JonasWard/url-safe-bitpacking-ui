@@ -4,7 +4,11 @@ import { ComplexDataEntry, ComplexDataType, DataEntry, DataType, NestedData } fr
 import { AddDataEntry } from './AddDataEntry';
 import { getValidatedUpdatedType } from '@/utils/handleUpdate';
 
-export const NestedDataBuilder: React.FC<{ d: NestedData; setData: (d: NestedData) => void }> = ({ d, setData }) => {
+export const NestedDataBuilder: React.FC<{ d: NestedData; setData: (d: NestedData) => void; disabled?: boolean }> = ({
+  d,
+  setData,
+  disabled = false
+}) => {
   const onAdd = (t: DataType | ComplexDataType, name: string) => setData([...d, getDefaultDescriptorForType(t, name)]);
   const onRemove = (i: number) => setData([...d.slice(0, i), ...d.slice(i + 1)]);
   const onMutateType = (i: number, t: DataType | ComplexDataType) =>
@@ -23,7 +27,7 @@ export const NestedDataBuilder: React.FC<{ d: NestedData; setData: (d: NestedDat
           onRemove={() => onRemove(i)}
         />
       ))}
-      <AddDataEntry key="add-data-entry" add={onAdd} otherNames={d.map((d) => d.name)} />
+      <AddDataEntry key="add-data-entry" add={onAdd} otherNames={d.map((d) => d.name)} disabled={disabled} />
     </div>
   );
 };
