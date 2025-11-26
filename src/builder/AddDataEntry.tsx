@@ -42,7 +42,7 @@ export const AddDataEntry: React.FC<{
           <option key={i} value={t} children={t} />
         ))}
       </select>
-      <button onClick={handleAdd}>+ Add</button>
+      <button onClick={handleAdd}>+</button>
     </CardWrapper>
   );
 };
