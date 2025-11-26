@@ -5,7 +5,8 @@ export const OptionsRenderer: React.FC<{
   d: (NestedData | null)[];
   setData: (newValue: (NestedData | null)[]) => void;
   disableEditAmount?: boolean;
-}> = ({ d, setData, disableEditAmount = false }) => {
+  disabledMask?: boolean[];
+}> = ({ d, setData, disableEditAmount = false, disabledMask = [] }) => {
   return (
     <div className="flex flex-col gap-2">
       {d.map((subd, i) => (
@@ -13,6 +14,7 @@ export const OptionsRenderer: React.FC<{
           key={i}
           d={subd ?? []}
           setData={(e) => setData([...d.slice(0, i), e.length === 0 ? null : e, ...d.slice(i + 1)])}
+          disabled={disabledMask?.[i] ?? false}
         />
       ))}
       {!disableEditAmount ? (
