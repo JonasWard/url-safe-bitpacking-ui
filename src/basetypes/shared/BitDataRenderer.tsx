@@ -16,11 +16,11 @@ export const parseBitsToBase64 = (bits: string): string => {
   return numbers.map((n) => base64url.charAt(n)).join('');
 };
 
-export const BitDataRenderer: React.FC<{ bitstring: string; showBase64?: boolean }> = ({
+export const BitDataRenderer: React.FC<{ bitstring: string | null; showBase64?: boolean }> = ({
   bitstring,
   showBase64 = false
 }) => {
-  return (
+  return bitstring ? (
     <span className="grid grid-cols-[1fr_auto] gap-1">
       <p className="data">#{bitstring.length}</p>
       <p
@@ -40,6 +40,11 @@ export const BitDataRenderer: React.FC<{ bitstring: string; showBase64?: boolean
           </p>
         </>
       ) : null}
+    </span>
+  ) : (
+    <span className="grid grid-cols-[1fr_auto] gap-1">
+      <p className="data error">error</p>
+      <p className="data error">...</p>
     </span>
   );
 };
