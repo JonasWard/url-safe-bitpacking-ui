@@ -12,6 +12,33 @@ import {
 } from 'url-safe-bitpacking';
 import { BitDataRenderer } from './BitDataRenderer';
 
+const complexDataStateStringifierWrapper = (d: ComplexDataEntry) => {
+  try {
+    return complexDataStateStringifier(d);
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+};
+
+const complexDataStringifierWrapper = (d: ComplexDataEntry) => {
+  try {
+    return complexDataStringifier(d);
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+};
+
+const dataBitsStringifierWrapper = (d: DataEntry) => {
+  try {
+    return dataBitsStringifier(d);
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+};
+
 export const BaseEntryWrapper: React.FC<{
   children: React.ReactNode;
   d: DataEntry | ComplexDataEntry;
@@ -36,14 +63,14 @@ export const BaseEntryWrapper: React.FC<{
         {ComplexDataValues.includes(d.type as ComplexDataType) ? (
           <>
             <span className="text-right">state bits</span>
-            <BitDataRenderer bitstring={complexDataStateStringifier(d as ComplexDataEntry)} />
+            <BitDataRenderer bitstring={complexDataStateStringifierWrapper(d as ComplexDataEntry)} />
             <span className="text-right">data bits</span>
-            <BitDataRenderer bitstring={complexDataStringifier(d as ComplexDataEntry)} />
+            <BitDataRenderer bitstring={complexDataStringifierWrapper(d as ComplexDataEntry)} />
           </>
         ) : (
           <>
             <span className="text-right">bits</span>
-            <BitDataRenderer bitstring={dataBitsStringifier(d as DataEntry)} />
+            <BitDataRenderer bitstring={dataBitsStringifierWrapper(d as DataEntry)} />
           </>
         )}
       </>
