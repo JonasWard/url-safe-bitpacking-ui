@@ -7,7 +7,6 @@ export const FloatRenderer: React.FC<{
   onMutate: (d: FloatDataEntry) => void;
 }> = ({ d, onMutate }) => (
   <>
-    <span className="text-right font-bold">value</span>
     <span className="flex flex-row gap-1 justify-between">
       <input
         className="small w-27"
