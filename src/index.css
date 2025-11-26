@@ -168,3 +168,7 @@ input.invalid {
   color: white;
   background-color: var(--color-secondary);
 }
+
+.data.error {
+  background-color: #9f0b0b;
+}
