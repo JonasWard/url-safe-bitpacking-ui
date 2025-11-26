@@ -1,6 +1,13 @@
 import { NestedData, OptionalDataEntry } from 'url-safe-bitpacking/dist/types';
 import { OptionsRenderer } from './shared/OptionsRenderer';
 import { ComplexContentWrapper } from './shared/ComplexContentWrapper';
+import { getDefaultDescriptorForType } from '@/utils/defaults';
+
+const descriptorParsing = (d: (NestedData | null)[]): OptionalDataEntry['descriptor'] =>
+  d[0] && d[0].length > 0 ? [d[0], null] : [null, d[1] ?? [getDefaultDescriptorForType('INT', 'an int')]];
+
+const getDisabledMask = (d: OptionalDataEntry): boolean[] =>
+  d.descriptor[0] && d.descriptor[0].length > 0 ? [false, true] : [true, false];
 
 export const OptionalRenderer: React.FC<{ d: OptionalDataEntry; onMutate: (d: OptionalDataEntry) => void }> = ({
   d,
@@ -10,8 +17,9 @@ export const OptionalRenderer: React.FC<{ d: OptionalDataEntry; onMutate: (d: Op
     descriptorContent={
       <OptionsRenderer
         d={d.descriptor as (NestedData | null)[]}
-        setData={(e) => onMutate({ ...d, descriptor: e as OptionalDataEntry['descriptor'] })}
+        setData={(e) => onMutate({ ...d, descriptor: descriptorParsing(e) })}
         disableEditAmount
+        disabledMask={getDisabledMask(d)}
       />
     }
     stateContent={
