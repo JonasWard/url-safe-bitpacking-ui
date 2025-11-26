@@ -6,15 +6,19 @@ export const VersionRenderer: React.FC<{
 }> = ({ d, onMutate }) => (
   <>
     <span className="text-right">value</span>
-    <select value={d.value} onChange={(e) => onMutate({ ...d, value: Number(e.target.value) })}>
+    <select className="small" value={d.value} onChange={(e) => onMutate({ ...d, value: Number(e.target.value) })}>
       {[...Array(2 ** d.bits)].map((_, index) => (
-        <option value={index}>{index}</option>
+        <option key={index} value={index} children={index} />
       ))}
     </select>
     <span className="text-right">bit count</span>
-    <select value={d.bits} onChange={(e) => onMutate({ ...d, bits: Number(e.target.value) as VersionRangeType })}>
-      {[4, 6, 8, 10].map((v) => (
-        <option value={v}>{v}</option>
+    <select
+      className="small"
+      value={d.bits}
+      onChange={(e) => onMutate({ ...d, bits: Number(e.target.value) as VersionRangeType })}
+    >
+      {[4, 6, 8, 10].map((v, i) => (
+        <option key={i} value={v} children={v} />
       ))}
     </select>
   </>

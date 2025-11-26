@@ -4,6 +4,7 @@ export const IntRenderer: React.FC<{ d: IntDataEntry; onMutate: (d: IntDataEntry
   <>
     <span className="text-right">value</span>
     <input
+      className="small"
       type="number"
       value={d.value}
       min={d.min}
@@ -12,8 +13,18 @@ export const IntRenderer: React.FC<{ d: IntDataEntry; onMutate: (d: IntDataEntry
       onChange={(e) => onMutate({ ...d, value: Number(e.target.value) })}
     />
     <span className="text-right">min</span>
-    <input type="number" value={d.min} onChange={(e) => onMutate({ ...d, min: Number(e.target.value) })} />
+    <input
+      className="small"
+      type="number"
+      value={d.min}
+      onChange={(e) => onMutate({ ...d, min: Number(e.target.value) })}
+    />
     <span className="text-right">max</span>
-    <input type="number" value={d.max} onChange={(e) => onMutate({ ...d, max: Number(e.target.value) })} />
+    <input
+      className="small"
+      type="number"
+      value={d.max}
+      onChange={(e) => onMutate({ ...d, max: Number(e.target.value) })}
+    />
   </>
 );

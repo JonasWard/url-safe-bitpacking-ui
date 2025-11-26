@@ -1,42 +1,7 @@
 import { DataEntryRenderer } from '@/basetypes/DataEntryRenderer';
-import { CardWrapper } from '@/styling/CardWrapper';
 import { getDefaultDescriptorForType } from '@/utils/defaults';
-import { useState } from 'react';
-import {
-  ComplexDataEntry,
-  ComplexDataType,
-  ComplexDataValues,
-  DataEntry,
-  DataType,
-  DataTypeValues,
-  NestedData
-} from 'url-safe-bitpacking';
-
-const defaultName: string = '';
-const defaultType: DataType | ComplexDataType = 'INT';
-
-const AddDataEntry: React.FC<{ add: (t: DataType | ComplexDataType, name: string) => void }> = ({ add }) => {
-  const [name, setName] = useState(defaultName);
-  const [type, setType] = useState<DataType | ComplexDataType>(defaultType);
-
-  const handleAdd = () => {
-    add(type, name);
-    setName(defaultName);
-    setType(defaultType);
-  };
-
-  return (
-    <CardWrapper className="flex flex-row gap-2 items-center">
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      <select value={type} onChange={(e) => setType(e.target.value as DataType | ComplexDataType)}>
-        {[...Object.values(DataTypeValues), ...Object.values(ComplexDataValues)].map((t) => (
-          <option value={t}>{t}</option>
-        ))}
-      </select>
-      <button onClick={handleAdd}>+ Add</button>
-    </CardWrapper>
-  );
-};
+import { ComplexDataEntry, ComplexDataType, DataEntry, DataType, NestedData } from 'url-safe-bitpacking';
+import { AddDataEntry } from './AddDataEntry';
 
 export const NestedDataBuilder: React.FC<{ d: NestedData; setData: (d: NestedData) => void }> = ({ d, setData }) => {
   const onAdd = (t: DataType | ComplexDataType, name: string) => setData([...d, getDefaultDescriptorForType(t, name)]);
@@ -46,7 +11,7 @@ export const NestedDataBuilder: React.FC<{ d: NestedData; setData: (d: NestedDat
   const onChange = (i: number, e: DataEntry | ComplexDataEntry) => setData([...d.slice(0, i), e, ...d.slice(i + 1)]);
 
   return (
-    <div className="flex flex-col gap-2 border-2 border-gray-200 rounded-xl p-2 bg-[#dedede]">
+    <div className="background flex flex-col gap-2 border-2 p-2">
       {d.map((d, i) => (
         <DataEntryRenderer
           key={i}
@@ -56,7 +21,7 @@ export const NestedDataBuilder: React.FC<{ d: NestedData; setData: (d: NestedDat
           onRemove={() => onRemove(i)}
         />
       ))}
-      <AddDataEntry add={onAdd} />
+      <AddDataEntry key="add-data-entry" add={onAdd} otherNames={d.map((d) => d.name)} />
     </div>
   );
 };

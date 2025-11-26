@@ -14,7 +14,7 @@ import {
 import { VersionRenderer } from './VersionRenderer';
 import { BooleanRenderer } from './BooleanRenderer';
 import { EnumRenderer } from './EnumRenderer';
-import { BaseEntryWrapper } from './BaseEntryWrapper';
+import { BaseEntryWrapper } from './shared/BaseEntryWrapper';
 import { FloatRenderer } from './FloatRenderer';
 import { IntRenderer } from './IntRenderer';
 import { EnumArrayRenderer } from './EnumArrayRenderer';
@@ -57,6 +57,11 @@ const DataEntryRendererSplitter: React.FC<DataEntryRendererSplitterProps<DataEnt
   }
 };
 
-export const DataEntryRenderer: React.FC<DataEntryRendererProps> = ({ onMutateType, ...props }) => (
-  <BaseEntryWrapper onMutateType={onMutateType} children={<DataEntryRendererSplitter {...props} />} {...props} />
+export const DataEntryRenderer: React.FC<DataEntryRendererProps> = ({ onMutateType, onRemove, ...props }) => (
+  <BaseEntryWrapper
+    onMutateType={onMutateType}
+    onRemove={onRemove}
+    children={<DataEntryRendererSplitter {...props} />}
+    {...props}
+  />
 );

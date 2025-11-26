@@ -35,3 +35,28 @@ export const getDefaultDescriptorForType = (
       );
   }
 };
+
+const DefaultNameForType: Record<DataType | ComplexDataType, string> = {
+  VERSION: 'a Version',
+  BOOLEAN: 'a Boolean',
+  ENUM: 'an Enum',
+  INT: 'an Int',
+  FLOAT: 'a Float',
+  ENUM_ARRAY: 'an Enum Array',
+  OPTIONAL: 'an Optional',
+  ENUM_OPTIONS: 'an Enum Options',
+  ARRAY: 'an Array'
+};
+
+const recursiveFindUniqueName = (t: DataType | ComplexDataType, otherNames: string[], index?: number): string => {
+  if (!index && !otherNames.includes(DefaultNameForType[t])) return DefaultNameForType[t];
+  if (!index) index = 1;
+  const name = `${DefaultNameForType[t]} ${index}`;
+  if (!otherNames.includes(name)) return name;
+  return recursiveFindUniqueName(t, otherNames, index + 1);
+};
+
+export const getDefaultNameForType = (t: DataType | ComplexDataType, otherNames: string[]): string =>
+  recursiveFindUniqueName(t, otherNames);
+export const isNameValid = (name: string | null, otherNames: string[]) =>
+  Boolean(name && name.length > 0 && !otherNames.includes(name));

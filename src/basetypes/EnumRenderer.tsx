@@ -1,4 +1,4 @@
-import { OptionsSelector } from './OptionsSelector';
+import { OptionsSelector } from './shared/OptionsSelector';
 import { DescriptorFactory, getOptionsFromMaxAndMapping, EnumDataEntry, EnumOptionsType } from 'url-safe-bitpacking';
 
 export const EnumRenderer: React.FC<{
@@ -17,7 +17,7 @@ export const EnumRenderer: React.FC<{
       <span className="text-right">value</span>
       <select value={d.value} onChange={(e) => handleSetValue(Number(e.target.value))}>
         {[...Array(d.max + 1)].map((_, index) => (
-          <option value={index}>{d.mapping[index] as string | number}</option>
+          <option key={index} value={index} children={d.mapping[index] as string | number} />
         ))}
       </select>
       <OptionsSelector optionsObject={getOptionsFromMaxAndMapping(d)} setOptions={(v) => handleSetOptions(v)} />
