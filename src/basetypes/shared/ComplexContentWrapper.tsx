@@ -13,7 +13,7 @@ export const ComplexContentWrapper: React.FC<ComplexContentWrapperProps> = ({ de
   return (
     <>
       {stateContent}
-      {showTitle ? <span className="text-right font-bold">descriptor</span> : null}
+      {showTitle ? <span className="text-right">descriptor</span> : null}
 
       <>
         <button className="small" onClick={() => setShowDescriptor(!showDescriptor)}>

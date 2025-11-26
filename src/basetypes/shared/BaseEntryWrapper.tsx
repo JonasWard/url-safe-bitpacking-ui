@@ -62,7 +62,7 @@ export const BaseEntryWrapper: React.FC<{
         <input value={d.name} onChange={(e) => onMutate({ ...d, name: e.target.value } as any as DataEntry)} />
         <button onClick={onRemove}>-</button>
       </span>
-      {showTitle ? <span className="text-right font-bold">value</span> : null}
+      {showTitle ? <span className="text-right">value</span> : null}
       {children}
       {showBits ? (
         <>
