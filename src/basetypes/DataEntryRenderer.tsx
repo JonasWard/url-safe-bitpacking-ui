@@ -52,8 +52,6 @@ const DataEntryRendererSplitter: React.FC<DataEntryRendererSplitterProps<DataEnt
       return <ArrayRenderer {...(props as DataEntryRendererSplitterProps<ArrayDataEntry>)} />;
     case 'OPTIONAL':
       return <OptionalRenderer {...(props as DataEntryRendererSplitterProps<OptionalDataEntry>)} />;
-    default:
-      return null;
   }
 };
 

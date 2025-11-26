@@ -1,16 +1,6 @@
 import { useState } from 'react';
 
-type EnumOptionsType = string | number | (string | number | object)[];
-
-export const getOptionsFromMaxAndMapping = (v: {
-  max: number;
-  mapping: (string | number | object)[];
-}): EnumOptionsType => {
-  if (v.mapping.every((option) => typeof option === 'string' && option.length === 1)) return v.mapping.join('');
-  if (Array.from({ length: v.max + 1 }, (_, i) => i).every((option, i) => option === v.mapping[i])) return v.max;
-
-  return v.mapping;
-};
+export type EnumOptionsType = string | number | (string | number | object)[];
 
 const SubOption: React.FC<{
   option: string | number;
