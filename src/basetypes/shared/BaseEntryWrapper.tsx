@@ -47,7 +47,7 @@ export const BaseEntryWrapper: React.FC<{
   onRemove: () => void;
 }> = ({ children, d, onMutate, onMutateType, onRemove }) => {
   return (
-    <CardWrapper className="foreground grid grid-cols-[4.5rem_1fr] relative">
+    <CardWrapper className="foreground grid grid-cols-[5rem_1fr] gap-2 relative">
       <span className="text-right">type</span>
       <span className="flex flex-row gap-1 justify-between">
         <select value={d.type} onChange={(e) => onMutateType(e.target.value as DataType | ComplexDataType)}>
