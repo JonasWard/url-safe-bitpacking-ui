@@ -16,7 +16,6 @@ export const EnumArrayRenderer: React.FC<{
 
   return (
     <>
-      <span className="text-right">value</span>
       <span className="flex flex-row gap-1">
         {d.value.map((v, i) => (
           <select

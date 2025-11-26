@@ -1,3 +1,4 @@
+import { useFileStore } from '@/state/useFileStore';
 import { useState } from 'react';
 
 type ComplexContentWrapperProps = {
@@ -7,22 +8,23 @@ type ComplexContentWrapperProps = {
 
 export const ComplexContentWrapper: React.FC<ComplexContentWrapperProps> = ({ descriptorContent, stateContent }) => {
   const [showDescriptor, setShowDescriptor] = useState(false);
+  const showTitle = useFileStore((state) => state.titleShown);
 
   return (
     <>
-      <span className="text-right">descriptor</span>
-      {showDescriptor ? (
-        <>
-          <button onClick={() => setShowDescriptor(false)}>hide descriptor</button>
+      {stateContent}
+      {showTitle ? <span className="text-right font-bold">descriptor</span> : null}
+
+      <>
+        <button className="small" onClick={() => setShowDescriptor(!showDescriptor)}>
+          {showDescriptor ? '< hide descriptor' : 'show descriptor >'}
+        </button>
+        {showDescriptor ? (
           <div className="absolute top-[-.55rem] left-[calc(100%+1rem)] h-0">
             <div className="background justify-center flex flex-col gap-2">{descriptorContent}</div>
           </div>
-        </>
-      ) : (
-        <button onClick={() => setShowDescriptor(true)}>show descriptor</button>
-      )}
-      <span className="text-right">value</span>
-      {stateContent}
+        ) : null}
+      </>
     </>
   );
 };

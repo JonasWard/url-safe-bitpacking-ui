@@ -1,3 +1,4 @@
+import { useFileStore } from '@/state/useFileStore';
 import { useState } from 'react';
 
 export type EnumOptionsType = string | number | (string | number | object)[];
@@ -30,6 +31,7 @@ export const OptionsSelector: React.FC<{
   setOptions: (enumOptions: EnumOptionsType) => void;
 }> = ({ optionsObject, setOptions }) => {
   const [isArray, setIsArray] = useState(Array.isArray(optionsObject));
+  const showTitle = useFileStore((state) => state.titleShown);
 
   const toggleIsArray = (currentOptions: EnumOptionsType) => {
     const currentlyArray = Array.isArray(currentOptions);
@@ -46,7 +48,7 @@ export const OptionsSelector: React.FC<{
 
   return (
     <>
-      <span className="text-right">options</span>
+      {showTitle ? <span className="text-right">options</span> : null}
       <span className="flex flex-row gap-2">
         <button onClick={() => toggleIsArray(optionsObject)}>Toggle Array</button>
         {isArray ? (

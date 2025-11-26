@@ -14,7 +14,6 @@ export const EnumRenderer: React.FC<{
 
   return (
     <>
-      <span className="text-right">value</span>
       <select value={d.value} onChange={(e) => handleSetValue(Number(e.target.value))}>
         {[...Array(d.max + 1)].map((_, index) => (
           <option key={index} value={index} children={d.mapping[index] as string | number} />

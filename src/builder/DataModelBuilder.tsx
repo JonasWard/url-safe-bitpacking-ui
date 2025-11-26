@@ -11,6 +11,8 @@ import {
 } from 'url-safe-bitpacking';
 import { NestedDataBuilder } from './NestedDataBuilder';
 import { BitDataRenderer } from '@/basetypes/shared/BitDataRenderer';
+import { ToggleBitsShown } from './ToggleBitsShown';
+import { ToggleTitleShown } from './ToggleTitleShown';
 
 export const downloadAsJson = (dataModel: StateDescriptor) => {
   const json = JSON.stringify(dataModel);
@@ -57,9 +59,13 @@ export const DescriptorBuilder = () => {
   return (
     <div className="grid grid-rows-[auto_1fr] h-screen">
       <span className="header">
-        <span className="grid grid-cols-[10rem_20rem] gap-2">
+        <span className="grid grid-cols-[10rem_20rem_10rem] gap-2">
           <button onClick={() => downloadAsJson(dataModel)}>Download</button>
           <input type="file" accept="application/json" onChange={(e) => uploadFromJson(e.target, setDataModel)} />
+          <span className="flex flex-row gap-1">
+            <ToggleBitsShown />
+            <ToggleTitleShown />
+          </span>
         </span>
       </span>
       <div className="pt-16 pb-16 px-6 mr-auto">

@@ -7,39 +7,40 @@ export const FloatRenderer: React.FC<{
   onMutate: (d: FloatDataEntry) => void;
 }> = ({ d, onMutate }) => (
   <>
-    <span className="text-right">value</span>
-    <input
-      className="small"
-      type="number"
-      value={d.value}
-      step={getStep(d)}
-      min={d.min}
-      max={d.max}
-      onChange={(e) => onMutate({ ...d, value: Number(e.target.value) })}
-    />
-    <span className="text-right">min</span>
-    <input
-      className="small"
-      type="number"
-      value={d.min}
-      onChange={(e) => onMutate({ ...d, min: Number(e.target.value) })}
-    />
-    <span className="text-right">max</span>
-    <input
-      className="small"
-      type="number"
-      value={d.max}
-      onChange={(e) => onMutate({ ...d, max: Number(e.target.value) })}
-    />
-    <span className="text-right">precision</span>
-    <select
-      className="small"
-      value={d.precision}
-      onChange={(e) => onMutate({ ...d, precision: Number(e.target.value) as PrecisionRangeType })}
-    >
-      {Array.from({ length: 7 }, (_, i) => i - 3).map((precision, i) => (
-        <option key={i} value={precision} children={10 ** -precision} />
-      ))}
-    </select>
+    <span className="text-right font-bold">value</span>
+    <span className="flex flex-row gap-1 justify-between">
+      <input
+        className="small w-27"
+        type="number"
+        value={d.min}
+        onChange={(e) => onMutate({ ...d, min: Number(e.target.value) })}
+      />
+      {'<'}
+      <input
+        className="small w-27"
+        type="number"
+        value={d.value}
+        step={getStep(d)}
+        min={d.min}
+        max={d.max}
+        onChange={(e) => onMutate({ ...d, value: Number(e.target.value) })}
+      />
+      {'<'}
+      <input
+        className="small w-27"
+        type="number"
+        value={d.max}
+        onChange={(e) => onMutate({ ...d, max: Number(e.target.value) })}
+      />
+      <select
+        className="small"
+        value={d.precision}
+        onChange={(e) => onMutate({ ...d, precision: Number(e.target.value) as PrecisionRangeType })}
+      >
+        {Array.from({ length: 7 }, (_, i) => i - 3).map((precision, i) => (
+          <option key={i} value={precision} children={10 ** -precision} />
+        ))}
+      </select>
+    </span>
   </>
 );

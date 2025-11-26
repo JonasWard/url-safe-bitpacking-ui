@@ -11,6 +11,7 @@ import {
   DataTypeValues
 } from 'url-safe-bitpacking';
 import { BitDataRenderer } from './BitDataRenderer';
+import { useFileStore } from '@/state/useFileStore';
 
 const complexDataStateStringifierWrapper = (d: ComplexDataEntry) => {
   try {
@@ -46,9 +47,12 @@ export const BaseEntryWrapper: React.FC<{
   onMutateType: (t: DataType | ComplexDataType) => void;
   onRemove: () => void;
 }> = ({ children, d, onMutate, onMutateType, onRemove }) => {
+  const showBits = useFileStore((state) => state.bitsShown);
+  const showTitle = useFileStore((state) => state.titleShown);
+
   return (
-    <CardWrapper className="foreground grid grid-cols-[5rem_1fr] gap-2 relative">
-      <span className="text-right">type</span>
+    <CardWrapper className={`foreground grid ${showTitle ? 'grid-cols-[5rem_1fr]' : 'grid-cols-[1fr]'} gap-2 relative`}>
+      {showTitle ? <span className="text-right">type</span> : null}
       <span className="flex flex-row gap-1 justify-between">
         <select value={d.type} onChange={(e) => onMutateType(e.target.value as DataType | ComplexDataType)}>
           {[...Object.values(DataTypeValues), ...Object.values(ComplexDataValues)].map((type, i) => (
@@ -58,22 +62,25 @@ export const BaseEntryWrapper: React.FC<{
         <input value={d.name} onChange={(e) => onMutate({ ...d, name: e.target.value } as any as DataEntry)} />
         <button onClick={onRemove}>-</button>
       </span>
+      {showTitle ? <span className="text-right font-bold">value</span> : null}
       {children}
-      <>
-        {ComplexDataValues.includes(d.type as ComplexDataType) ? (
-          <>
-            <span className="text-right">state bits</span>
-            <BitDataRenderer bitstring={complexDataStateStringifierWrapper(d as ComplexDataEntry)} />
-            <span className="text-right">data bits</span>
-            <BitDataRenderer bitstring={complexDataStringifierWrapper(d as ComplexDataEntry)} />
-          </>
-        ) : (
-          <>
-            <span className="text-right">bits</span>
-            <BitDataRenderer bitstring={dataBitsStringifierWrapper(d as DataEntry)} />
-          </>
-        )}
-      </>
+      {showBits ? (
+        <>
+          {ComplexDataValues.includes(d.type as ComplexDataType) ? (
+            <>
+              {showTitle ? <span className="text-right">state bits</span> : null}
+              <BitDataRenderer bitstring={complexDataStateStringifierWrapper(d as ComplexDataEntry)} />
+              {showTitle ? <span className="text-right">data bits</span> : null}
+              <BitDataRenderer bitstring={complexDataStringifierWrapper(d as ComplexDataEntry)} />
+            </>
+          ) : (
+            <>
+              {showTitle ? <span className="text-right">bits</span> : null}
+              <BitDataRenderer bitstring={dataBitsStringifierWrapper(d as DataEntry)} />
+            </>
+          )}
+        </>
+      ) : null}
     </CardWrapper>
   );
 };

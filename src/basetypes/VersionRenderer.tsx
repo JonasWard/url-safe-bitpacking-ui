@@ -5,7 +5,6 @@ export const VersionRenderer: React.FC<{
   onMutate: (d: VersionDataEntry) => void;
 }> = ({ d, onMutate }) => (
   <>
-    <span className="text-right text-bold">value</span>
     <span className="grid grid-cols-[1fr_auto_auto] gap-2">
       <select className="small" value={d.value} onChange={(e) => onMutate({ ...d, value: Number(e.target.value) })}>
         {[...Array(2 ** d.bits)].map((_, index) => (
