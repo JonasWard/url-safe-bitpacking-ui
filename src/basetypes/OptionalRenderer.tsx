@@ -18,11 +18,11 @@ export const OptionalRenderer: React.FC<{ d: OptionalDataEntry; onMutate: (d: Op
       <select
         className="small"
         value={String(d.state)}
-        onChange={(e) => onMutate({ ...d, state: Boolean(e.target.value) })}
-      >
-        <option value={'true'} children={'true'} />
-        <option value={'false'} children={'false'} />
-      </select>
+        onChange={(e) => onMutate({ ...d, state: e.target.value === 'true' })}
+        children={['true', 'false'].map((v, i) => (
+          <option key={i} value={v} children={v} />
+        ))}
+      />
     }
   />
 );
