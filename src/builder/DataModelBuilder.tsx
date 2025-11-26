@@ -23,14 +23,20 @@ export const downloadAsJson = (dataModel: StateDescriptor) => {
 };
 
 // ToDo export nestedDataStringifier from url-safe-bitpacking
-export const nestedDataStringifier = (dataModel: StateDescriptor): string =>
-  dataModel
-    .map((d) =>
-      ComplexDataValues.includes(d.type as ComplexDataType)
-        ? complexDataStringifier(d as ComplexDataEntry)
-        : dataBitsStringifier(d as DataEntry)
-    )
-    .join('');
+export const nestedDataStringifier = (dataModel: StateDescriptor): string | null => {
+  try {
+    return dataModel
+      .map((d) =>
+        ComplexDataValues.includes(d.type as ComplexDataType)
+          ? complexDataStringifier(d as ComplexDataEntry)
+          : dataBitsStringifier(d as DataEntry)
+      )
+      .join('');
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+};
 
 export const uploadFromJson = (t: HTMLInputElement, setDataModel: (dataModel: StateDescriptor) => void) => {
   const file = (t as HTMLInputElement).files?.[0];
