@@ -56,7 +56,7 @@ export const DescriptorBuilder = () => {
           <input type="file" accept="application/json" onChange={(e) => uploadFromJson(e.target, setDataModel)} />
         </span>
       </span>
-      <div className="pt-16 pb-8 px-6 mr-auto">
+      <div className="pt-16 pb-16 px-6 mr-auto">
         <NestedDataBuilder d={dataModel} setData={(e) => setDataModel(e as StateDescriptor)} />
       </div>
       <span className="fixed bottom-0 left-0 p-1 bg-background">

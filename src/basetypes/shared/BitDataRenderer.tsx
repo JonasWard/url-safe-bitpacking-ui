@@ -21,8 +21,8 @@ export const BitDataRenderer: React.FC<{ bitstring: string; showBase64?: boolean
   showBase64 = false
 }) => {
   return (
-    <span className="grid grid-cols-[1fr_auto_auto] gap-1">
-      <p className="data">{bitstring.length}</p>
+    <span className="grid grid-cols-[1fr_auto] gap-1">
+      <p className="data">#{bitstring.length}</p>
       <p
         className="data truncate max-w-100 cursor-pointer hover:underline"
         onClick={() => navigator.clipboard.writeText(bitstring)}
@@ -30,12 +30,15 @@ export const BitDataRenderer: React.FC<{ bitstring: string; showBase64?: boolean
         {bitstring}
       </p>
       {showBase64 ? (
-        <p
-          className="data truncate max-w-100 cursor-pointer hover:underline"
-          onClick={() => navigator.clipboard.writeText(parseBitsToBase64(bitstring))}
-        >
-          {parseBitsToBase64(bitstring)}
-        </p>
+        <>
+          <p className="data">#{parseBitsToBase64(bitstring).length}</p>
+          <p
+            className="data truncate max-w-100 cursor-pointer hover:underline"
+            onClick={() => navigator.clipboard.writeText(parseBitsToBase64(bitstring))}
+          >
+            {parseBitsToBase64(bitstring)}
+          </p>
+        </>
       ) : null}
     </span>
   );
